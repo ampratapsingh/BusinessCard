@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { cardType, updateCard } = require("./types");
 const { Card } = require("./db");
+const cors = require("cors");
 
 app.use(express.json());
 
@@ -11,7 +12,7 @@ app.use(cors({
 
 app.post("/card", async(req, res) => {
   const cardPayload = req.body;
-  const parsedPayload = cardType.parse(cardPayload);
+  const parsedPayload = cardType.safeParse(cardPayload);
   if(!parsedPayload.success) {
     return res.status(411).json({
       message : "Invalid Payload"
@@ -21,7 +22,7 @@ app.post("/card", async(req, res) => {
   await Card.create({
     name: parsedPayload.data.name,
     description: parsedPayload.data.description,
-    interests: [parsedPayload.data.interests[0].interest1, parsedPayload.data.interests[0].interest2, parsedPayload.data.interests[0].interest3]
+    interests: parsedPayload.data.interests
   })
 
   res.json({
@@ -37,7 +38,7 @@ app.get("/mycards", async(req, res) => {
 
 app.put("/UpdateCard", async(req, res) => {
   const cardId = req.body;
-  const parseId = updateCard.parse(cardId);
+  const parseId = updateCard.safeParse(cardId);
   if(!parseId.success) {
     return res.status(411).json({
       message : "Invalid Payload"
@@ -56,6 +57,11 @@ app.put("/UpdateCard", async(req, res) => {
   res.json({
     message : "Card Updated Successfully"
   })
+})
+
+app.use((error, req, res, next) => {
+  res.status(500).json({ message: error.message });
+  next();
 })
 
 
