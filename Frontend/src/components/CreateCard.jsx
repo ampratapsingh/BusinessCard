@@ -7,7 +7,7 @@ export function CreateCard() {
 
   return (
     <div style={styles.formContainer}>
-      <h2 style={styles.heading}>Create a New Card</h2>
+      <h2 style={styles.heading}>✨ Create a New Card</h2>
 
       {/* Name */}
       <input
@@ -16,6 +16,8 @@ export function CreateCard() {
         placeholder="Full Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onFocus={(e) => (e.target.style.borderColor = "#0077b5")}
+        onBlur={(e) => (e.target.style.borderColor = "#ddd")}
       />
 
       {/* Description */}
@@ -25,6 +27,8 @@ export function CreateCard() {
         placeholder="Description (e.g. Web Developer)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        onFocus={(e) => (e.target.style.borderColor = "#0077b5")}
+        onBlur={(e) => (e.target.style.borderColor = "#ddd")}
       />
 
       {/* Interests */}
@@ -40,14 +44,22 @@ export function CreateCard() {
             newInterests[index] = e.target.value;
             setInterests(newInterests);
           }}
+          onFocus={(e) => (e.target.style.borderColor = "#0077b5")}
+          onBlur={(e) => (e.target.style.borderColor = "#ddd")}
         />
       ))}
 
       {/* Button */}
       <button
         style={styles.button}
-        onMouseEnter={(e) => (e.target.style.opacity = "0.9")}
-        onMouseLeave={(e) => (e.target.style.opacity = "1")}
+        onMouseEnter={(e) => {
+          e.target.style.background = "linear-gradient(135deg, #006699, #0099cc)";
+          e.target.style.transform = "translateY(-2px)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = "linear-gradient(135deg, #0077b5, #00a0dc)";
+          e.target.style.transform = "translateY(0px)";
+        }}
         onClick={() => {
           fetch("http://localhost:3000/card", {
             method: "POST",
@@ -62,52 +74,55 @@ export function CreateCard() {
           });
         }}
       >
-        Create Card
+        🚀 Create Card
       </button>
     </div>
   );
 }
 
-// 🎨 Centralized Styles
+// 🎨 Stylish Centralized Styles
 const styles = {
   formContainer: {
-    maxWidth: "400px",
-    margin: "30px auto",
-    padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0px 6px 16px rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#ffffff",
+    maxWidth: "420px",
+    margin: "40px auto",
+    padding: "25px",
+    borderRadius: "16px",
+    boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.12)",
+    background: "linear-gradient(145deg, #ffffff, #f7f9fc)",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   heading: {
-    marginBottom: "20px",
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    color: "#333",
+    marginBottom: "22px",
+    fontSize: "1.7rem",
+    fontWeight: "700",
+    color: "#222",
+    letterSpacing: "0.5px",
   },
   input: {
     width: "100%",
     margin: "10px 0",
     padding: "12px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
+    border: "1px solid #ddd",
+    borderRadius: "10px",
     fontSize: "1rem",
     outline: "none",
-    transition: "0.2s",
+    transition: "all 0.3s ease",
+    boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.05)",
   },
   button: {
-    marginTop: "15px",
-    padding: "12px 20px",
+    marginTop: "20px",
+    padding: "14px 22px",
     width: "100%",
     border: "none",
-    borderRadius: "8px",
-    backgroundColor: "#0077b5",
+    borderRadius: "10px",
+    background: "linear-gradient(135deg, #0077b5, #00a0dc)",
     color: "white",
-    fontSize: "1rem",
-    fontWeight: "bold",
+    fontSize: "1.05rem",
+    fontWeight: "600",
     cursor: "pointer",
-    transition: "0.2s",
+    transition: "all 0.3s ease",
+    boxShadow: "0px 4px 10px rgba(0, 119, 181, 0.3)",
   },
 };
